@@ -1,13 +1,11 @@
-
-
 class SLLNode(object):
-    def __init__(self, data=None, _next=None):
-        self.data = data
+    def __init__(self, item=None, _next=None):
+        self.item = item
         self.next = _next
 
     @property
-    def data(self):
-        return self.data
+    def item(self):
+        return self.item
 
     @property
     def next(self):
@@ -15,13 +13,13 @@ class SLLNode(object):
 
 
 class CLLNode(object):
-    def __init__(self, data=None, _next=None):
-        self.data = data
+    def __init__(self, item=None, _next=None):
+        self.item = item
         self.next = _next
 
     @property
-    def data(self):
-        return self.data
+    def item(self):
+        return self.item
 
     @property
     def next(self):
@@ -29,14 +27,14 @@ class CLLNode(object):
 
 
 class DLLNode(object):
-    def __init__(self, data=None, _next=None, _prev=None):
-        self.data = data
+    def __init__(self, item=None, _next=None, _prev=None):
+        self.item = item
         self.next = _next
         self.prev = _prev
 
     @property
-    def data(self):
-        return self.data
+    def item(self):
+        return self.item
 
     @property
     def next(self):
