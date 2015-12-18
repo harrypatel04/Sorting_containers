@@ -10,9 +10,6 @@ Basic Vector class in Python.
 class Vector(object):
     def __init__(self, *args):
         """ Create an n-dimensional vector of ints or floats, example: v = Vector(1,2) """
-        for arg in args:
-            if not (isinstance(arg, float) or isinstance(arg, int)):
-                raise TypeError('Vector can only be instantiated with type int or type float.')
         if len(args) == 0:
             self.values = (0, 0)
         else:
@@ -27,22 +24,6 @@ class Vector(object):
     def fromPointsR3(cls, x1, y1, z1, x2, y2, z2):
         """Instantiate Vector from two points in R3"""
         return cls(x2 - x1, y2 - y1, z2 - z1)
-
-    @classmethod
-    def planeEqn(cls, pt1, pt2, pt3):
-        """returns a string representation of the equation for a plane defined by three points"""
-        if not isinstance(pt1, tuple) or not isinstance(pt2, tuple) or not isinstance(pt3, tuple):
-            raise TypeError('planeEqn accepts three three-tuples of points as arguments')
-        elif len(pt1) != 3 or len(pt2) != 3 or len(pt3) != 3:
-            raise ValueError('planeEqn accepts three three-tuples of points as arguments')
-        else:
-            vector_1 = cls.fromPointsR3(pt1[0], pt1[1], pt1[2], pt2[0], pt2[1], pt2[2])
-            vector_2 = cls.fromPointsR3(pt1[0], pt1[1], pt1[2], pt3[0], pt3[1], pt3[2])
-            n = vector_1.Cross(vector_2)
-
-            return str(n[0]) + "*(x-" + str(pt1[0]) + ") + " + str(n[1]) + "*(y-" + str(pt1[1]) + ") + " + str(
-                n[2]) + "*(z-" + str(pt1[2]) + ") = 0" + '\n' + str(n[0]) + "x + " + str(n[1]) + "y + " + str(
-                n[2]) + "z = " + str(-(n[0] * -pt1[0] + n[1] * -pt1[1] + n[2] * -pt1[2]))
 
     @property
     def x(self):
@@ -67,12 +48,12 @@ class Vector(object):
 
     def __add__(self, other):
         """Add two vectors."""
-        resultant_vector = tuple(a + b for a, b in zip(self, other))
+        resultant_vector = tuple(a + b for a, b in izip(self, other))
         return Vector(*resultant_vector)
 
     def __sub__(self, other):
         """Vector difference of two vectors."""
-        resultant_vector = tuple(a - b for a, b in zip(self, other))
+        resultant_vector = tuple(a - b for a, b in izip(self, other))
         return Vector(*resultant_vector)
 
     def __mul__(self, other):
@@ -81,21 +62,16 @@ class Vector(object):
         """
         if isinstance(other, Vector):
             return self.Dot(other)
-        elif isinstance(other, int) or isinstance(other, float):
+        else:
             resultant_vector = tuple(component * other for component in self)
             return Vector(*resultant_vector)
-        else:
-            raise TypeError('unsupported operand type(s) for *: \'Vector\' and \'' + str(type(other)) + '\'')
 
     def __rmul__(self, other):
         return self.__mul__(other)
 
     def __truediv__(self, other):
-        if isinstance(other, int) or isinstance(other, float):
-            resultant_vector = tuple(component / other for component in self)
-            return Vector(*resultant_vector)
-        else:
-            raise TypeError('unsupported operand type(s) for /: \'Vector\' and \'' + str(type(other)) + '\'')
+        resultant_vector = tuple(component / other for component in self)
+        return Vector(*resultant_vector)
 
     def __len__(self):
         """Returns number of components, not magnitude."""
