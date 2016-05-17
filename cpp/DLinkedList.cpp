@@ -109,7 +109,8 @@ bool DLinkedList::remove ( int n )
         curr = curr -> next;
     }
 
-    if ( curr == nullptr || curr -> item != n )
+    //Not found
+    if ( curr -> item != n )
         return false;
 
     //End

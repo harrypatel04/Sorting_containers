@@ -14,33 +14,41 @@ class LinkedList(object):
     def head(self):
         return self._head
 
+    @head.setter
+    def head(self, val):
+        self._head = val
+
     @property
     def size(self):
         return self._size
 
+    @size.setter
+    def size(self, val):
+        self._size = val
+
     def insert(self, item):
-        curr = self._head
-        prev = self._head
+        curr = self.head
+        prev = self.head
 
         temp = Node(item)
         temp.next = None
 
         # Empty
-        if self._head is None:
+        if self.head is None:
             if self.debug:
                 print("inserting", item, "into an empty list.")
-            self._head = temp
-            self._size += 1
-            return
+            self.head = temp
+            self.size += 1
+            return True
 
         # Beginning
-        if temp.item <= self._head.item:
+        if temp.item <= self.head.item:
             if self.debug:
                 print("inserting", item, "at beginning of list.")
-            temp.next = self._head
-            self._head = temp
-            self._size += 1
-            return
+            temp.next = self.head
+            self.head = temp
+            self.size += 1
+            return True
 
         # Middle/End
         while curr is not None and curr.item <= temp.item:
@@ -51,28 +59,28 @@ class LinkedList(object):
             print("inserting", item, "in middle/end of list.")
         prev.next = temp
         temp.next = curr
-        self._size += 1
-        return
+        self.size += 1
+        return True
 
     def remove(self, n):
-        temp = self._head
-        prev = self._head
-        curr = self._head
+        temp = self.head
+        prev = self.head
+        curr = self.head
 
         # Empty
-        if self._head is None:
+        if self.head is None:
             if self.debug:
                 print("attempting to remove", n, "from an empty list.")
-            return
+            return False
 
         # Beginning
-        if self._head.item == n:
+        if self.head.item == n:
             if self.debug:
                 print("removing", n, "from beginning of list.")
-            self._head = self._head.next
+            self.head = self.head.next
             del temp
-            self._size -= 1
-            return
+            self.size -= 1
+            return True
 
         # Middle/End
         while curr is not None and curr.item != n:
@@ -82,38 +90,26 @@ class LinkedList(object):
         if curr is None:
             if self.debug:
                 print(n, "not found in list.")
-            return
+            return False
 
         if self.debug:
             print("removing", n, "from middle/end of list.")
         prev.next = curr.next
         del curr
-        self._size -= 1
-        return
+        self.size -= 1
+        return True
 
     def is_empty(self):
         return self.__bool__()
 
     def __bool__(self):
-        return bool(self._size)
+        return bool(self.size)
 
-    def __contains__(self, item):
-        temp = self._head
-        prev = self._head
-        curr = self._head
-
-        while curr is not None and curr.item != item:
-            prev = curr
-            curr = curr.next
-
-        if curr is None:
-            if self.debug:
-                print(item, "not found in list.")
-            return False
-        else:
-            if self.debug:
-                print(item, "found in list.")
-            return True
+    def __contains__(self, val):
+        for item in self:
+            if item == val:
+                return True
+        return False
 
     def __getitem__(self, index):
         """
@@ -122,29 +118,28 @@ class LinkedList(object):
            not designed for lookups like this)
         """
         i = 0
-        temp = self._head
-        prev = self._head
-        curr = self._head
+        temp = self.head
 
-        while curr is not None and i < index:
-            prev = curr
-            curr = curr.next
+        if index > self.size-1:
+            raise IndexError("Index out of range.")
+        while temp is not None and i <= index:
+            item = temp.item
+            temp = temp.next
             i += 1
 
-        print("Warning: __getitem__() slow. Use for debugging only")
-        return curr.item
+        return item
 
     def __len__(self):
-        return self._size
+        return self.size
 
     def __repr__(self):
-        temp = self._head
+        temp = self.head
         contents = []
         while temp is not None:
             contents.append(temp.item)
             temp = temp.next
         if self.debug:
-            return "size: " + str(self._size) + " contents: " + str(contents)
+            return "size: " + str(self.size) + " contents: " + str(contents)
         else:
             return str(contents)
 

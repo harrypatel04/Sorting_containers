@@ -8,6 +8,9 @@ class Stack(UnorderedLinkedList):
     def peek(self):
         return self._head.item
 
+    def top(self):
+        return peek(self)
+
     def push(self, item):
         self.insert(item)
 

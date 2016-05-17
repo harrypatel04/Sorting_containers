@@ -14,7 +14,7 @@ class UnorderedLinkedList(LinkedList):
                 print("inserting", item, "into an empty list.")
             self._head = temp
             self._size += 1
-            return
+            return True
 
         # Beginning
         if self.debug:
@@ -22,7 +22,7 @@ class UnorderedLinkedList(LinkedList):
         temp.next = self._head
         self._head = temp
         self._size += 1
-        return
+        return True
 
     def remove(self, n):
         temp = self._head
@@ -33,7 +33,7 @@ class UnorderedLinkedList(LinkedList):
         if self._head is None:
             if self.debug:
                 print("attempting to remove", n, "from an empty list.")
-            return
+            return False
 
         # Beginning
         if self._head.item == n:
@@ -42,7 +42,7 @@ class UnorderedLinkedList(LinkedList):
             self._head = self._head.next
             del temp
             self._size -= 1
-            return
+            return True
 
         # Middle/End
         while curr is not None and curr.item != n:
@@ -52,11 +52,11 @@ class UnorderedLinkedList(LinkedList):
         if curr is None:
             if self.debug:
                 print(n, "not found in list.")
-            return
+            return False
 
         if self.debug:
             print("removing", n, "from middle/end of list.")
         prev.next = curr.next
         del curr
         self._size -= 1
-        return
+        return True
