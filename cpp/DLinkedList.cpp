@@ -88,7 +88,7 @@ bool DLinkedList::remove ( int n )
     if ( headptr -> item == n )
     {
         //Last remaining node
-        if ( headptr -> next = nullptr )
+        if ( headptr -> next == nullptr )
         {
             delete headptr;
             headptr = nullptr;
@@ -102,7 +102,7 @@ bool DLinkedList::remove ( int n )
         return true;
     }
 
-    //Middle
+    //Traverse
     while ( curr != nullptr && curr -> item < n )
     {
         prev = curr;
@@ -110,11 +110,11 @@ bool DLinkedList::remove ( int n )
     }
 
     //Not found
-    if ( curr -> item != n )
+    if ( curr == nullptr )
         return false;
 
     //End
-    if ( curr == nullptr )
+    if ( curr -> next == nullptr )
     {
         prev -> next = nullptr;
         tailptr = prev;
