@@ -119,6 +119,7 @@ class LinkedList(object):
         """
         i = 0
         temp = self.head
+        item = None
 
         if index > self.size-1:
             raise IndexError("Index out of range.")

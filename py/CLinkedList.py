@@ -67,7 +67,6 @@ class CLinkedList(object):
         return True
 
     def remove(self, item):
-        temp = None
         prev = self.tail.next
         curr = self.tail.next
 
@@ -79,7 +78,6 @@ class CLinkedList(object):
         if self.tail.next.item == item:
             # Last remaining node
             if self.tail is self.tail.next:
-                del self.tail
                 self.tail = None
                 self.size -= 1
                 return True
@@ -122,7 +120,7 @@ class CLinkedList(object):
     def __len__(self):
         return self.size
 
-    def __contains__(self, item):
+    def __contains__(self, val):
         for item in self:
             if item == val:
                 return True
@@ -146,7 +144,7 @@ class CLinkedList(object):
            not designed for lookups like this)
         """
         i = 0
-
+        item = None
         if self.tail is not None:
             temp = self.tail.next
             if index > self.size-1:

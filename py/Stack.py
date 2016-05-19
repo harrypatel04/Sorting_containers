@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-from Node import Node
 from UnorderedLinkedList import UnorderedLinkedList
 
 
@@ -9,7 +8,7 @@ class Stack(UnorderedLinkedList):
         return self._head.item
 
     def top(self):
-        return peek(self)
+        return self.peek()
 
     def push(self, item):
         self.insert(item)

@@ -136,7 +136,7 @@ class DLinkedList(object):
     def __len__(self):
         return self.size
 
-    def __contains__(self, item):
+    def __contains__(self, val):
         for item in self:
             if item == val:
                 return True
@@ -164,7 +164,7 @@ class DLinkedList(object):
         """
         i = 0
         temp = self.head
-
+        item = None
         if index > self.size-1:
             raise IndexError("Index out of range.")
         while temp is not None and i <= index:
