@@ -51,6 +51,7 @@ int32_t main(int32_t argc, char const **argv)
 }
 
 
+// Differs from STL implementation in that it returns a bool rather than int
 bool strcmp_( char *s1, char *s2 )
 {
     while ( *s1 == *s2 )
@@ -159,7 +160,7 @@ void strncpy_( char *dest, char *src, int32_t num_bytes )
 }
 
 
-int32_t _strlen( char *str )
+int32_t strlen_( char *str )
 {
     int32_t count = 0;
 
