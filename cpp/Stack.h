@@ -1,9 +1,8 @@
+#pragma once
 #include <iostream>
 
 using namespace std;
 
-#ifndef __STACK_H
-#define __STACK_H
 
 template <class TY>
 class Stack
@@ -191,5 +190,3 @@ void Stack<TY>::print()
     }
     cout << endl;
 }
-
-#endif // __STACK_H

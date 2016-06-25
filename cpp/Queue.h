@@ -1,9 +1,7 @@
+#pragma once
 #include <iostream>
 
 using namespace std;
-
-#ifndef __QUEUE_H
-#define __QUEUE_H
 
 template <class TY>
 class Queue
@@ -215,5 +213,3 @@ void Queue<TY>::print()
     } while( temp != tailptr );
     cout << endl;
 }
-
-#endif // end __QUEUE_H

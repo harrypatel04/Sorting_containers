@@ -1,9 +1,8 @@
+#pragma once
 #include <iostream>
 
 using namespace std;
 
-#ifndef __LINKLIST_H
-#define __LINKLIST_H
 
 //Singularly linked list
 class SLinkedList
@@ -79,5 +78,3 @@ private:
 
     node *tailptr;
 };
-
-#endif // __LINKLIST_H
