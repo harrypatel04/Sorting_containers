@@ -1,51 +1,16 @@
 // misc implementations
 #include "misc.h"
 
-int32_t main(int32_t argc, char const **argv)
+int32_t main(int32_t argc, const char **argv)
 {
-    char *hex1 = "0x32";  // 50
-    char *hex2 = "0X32";
-    char *hex3 = "0x0A";  // 10
-    char *hex4 = "0x0a";
+    uint32_t size = 0;
+    int32_t offset = 0;
 
-    char *bin1 = "0b10";  // 2
-    char *bin2 = "0B10";
-    char *bin3 = "0b001";  // 1
+    //
+    parse_args(argc, argv, &size, &offset);
+    printf("size: %i offset: %i\n", size, offset );
 
-    char *int1 = "10";
-    char *int2 = "01";
-    char *int3 = "99";
-
-    char *shex1 = "-0x32";
-    char *sbin1 = "-0b10";
-    char *sint1 = "-10";
-
-    // printf("%s: %d\n", hex1, atoi_(hex1));
-    // printf("%s: %d\n", hex2, atoi_(hex2));
-    // printf("%s: %d\n", hex3, atoi_(hex3));
-    // printf("%s: %d\n\n", hex4, atoi_(hex4));
-
-    // printf("%s: %d\n", bin1, atoi_(bin1));
-    // printf("%s: %d\n", bin2, atoi_(bin2));
-    // printf("%s: %d\n\n", bin3, atoi_(bin3));
-
-    // printf("%s: %d\n", int1, atoi_(int1));
-    // printf("%s: %d\n", int2, atoi_(int2));
-    // printf("%s: %d\n\n", int3, atoi_(int3));
-
-    // printf("%s: %d\n", shex1, atoi_(shex1));
-    // printf("%s: %d\n", sbin1, atoi_(sbin1));
-    // printf("%s: %d\n", sint1, atoi_(sint1));
-
-    int32_t n = 76812;
-    int32_t m = -76812;
-
-    print_bits( sizeof(n), &n );
-    print_bits( sizeof(m), &m );
-    reverse_bits( &n );
-    reverse_bits( &m );
-    print_bits( sizeof(n), &n );
-    print_bits( sizeof(m), &m );
+    return 0;
 
     return 0;
 }
@@ -200,4 +165,37 @@ void reverse_bits( int32_t *n )
     *n = ((*n >> 4) & 0x0f0f0f0f) | ((*n << 4) & 0xf0f0f0f0);
     *n = ((*n >> 8) & 0x00ff00ff) | ((*n << 8) & 0xff00ff00);
     *n = ((*n >> 16) & 0x0000ffff) | ((*n << 16) & 0xffff0000);
+}
+
+
+// http://www.gnu.org/software/libc/manual/html_node/Parsing-Program-Arguments.html
+void parse_args( int32_t argc, const char **argv, uint32_t *size, int32_t *offset )
+{
+    char ch;
+
+    // --size 4 == -s4 == -s 4 == --size=4
+    static struct option long_options[] =
+    {
+        {"size", required_argument, NULL, 's'},
+        {"offset", required_argument, NULL, 'o'},
+        {NULL, 0, NULL, 0}
+    };
+
+    while ( (ch = getopt_long(argc, (char * const *)argv, "s:o:", long_options, NULL)) != -1 )
+    {
+        switch ( ch )
+        {
+        case 's':
+            *size = abs(atoi(optarg));  // size is supposed to be unsigned
+            break;
+        case 'o':
+            *offset = atoi(optarg);
+            break;
+        case '?':
+            break; // message already printed
+        default:
+            exit(1);
+        }
+
+    }
 }
