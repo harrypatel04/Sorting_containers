@@ -63,20 +63,20 @@ void merge ( int32_t *a, int32_t size, int32_t midpoint )
 }
 
 
-void heapify( int32_t *a, int32_t size, int32_t root )
+void heapify( int32_t *a, int32_t start, int32_t end )
 {
-    int32_t largest = root;
-    int32_t left = 2 * root + 1;
-    int32_t right = 2 * root + 2;
+    int32_t largest = end;
+    int32_t left = 2 * end + 1;
+    int32_t right = 2 * end + 2;
 
-    if ( left < size && a[left] > a[largest] )
+    if ( left < start && a[left] > a[largest] )
         largest = left;
-    if ( right < size && a[right] > a[largest] )
+    if ( right < start && a[right] > a[largest] )
         largest = right;
-    if ( largest != root )
+    if ( largest != end )
     {
-        swap( &a[root], &a[largest] );
-        heapify( a, size, largest );
+        swap( &a[end], &a[largest] );
+        heapify( a, start, largest );
     }
 }
 
@@ -178,12 +178,12 @@ void mergesort( int32_t *a, size_t size )
 
 void heapsort( int32_t *a, size_t size )
 {
-    for ( int32_t root = size / 2 - 1; root >= 0; root-- )
-        heapify( a, size, root );
+    for ( int32_t start = size / 2 - 1; start >= 0; start-- )
+        heapify( a, size, start );
 
-    for ( int32_t root = size - 1; root >= 0; root-- )
+    for ( int32_t end = size - 1; end >= 0; end-- )
     {
-        swap( &a[0], &a[root] );
-        heapify( a, root, 0 );
+        swap( &a[0], &a[end] );
+        heapify( a, end, 0 );
     }
 }
