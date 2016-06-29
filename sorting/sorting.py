@@ -2,8 +2,23 @@ import itertools
 import heapq
 
 
-def swap(array, x, y):
-    array[x], array[y] = array[y], array[x]
+def swap(x, y):
+    x, y = y, x
+
+
+def heapify(seq, start, end):
+    root = start
+    while True:
+        child = root * 2 + 1
+        if child > end:
+            break
+        if child + 1 <= end and seq[child] < seq[child + 1]:
+            child += 1
+        if seq[root] < seq[child]:
+            swap(seq[root], seq[child])
+            root = child
+        else:
+            break
 
 
 def bubblesort(seq):
@@ -53,3 +68,14 @@ def quicksort(seq):
         less = [x for x in seq if x < pivot]
         more = [x for x in seq[1:] if x >= pivot]
         return quicksort(less) + [pivot] + quicksort(more)
+
+
+def heapsort(seq):
+    for start in range((len(seq) - 2) // 2, -1, -1):
+        heapify(seq, start, len(seq)-1)
+
+    for end in range(len(seq) - 1, 0, -1):
+        swap(seq[end], seq[0])
+        heapify(seq, 0, end - 1)
+
+    return seq

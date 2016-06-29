@@ -40,6 +40,12 @@ def test_quicksort(nums, size):
     print("Quick sort. %i items in %f seconds." % (size, time() - start_time))
 
 
+def test_heapsort(nums, size):
+    start_time = time()
+    sorted_items = heapsort(nums)
+    print("Heap sort. %i items in %f seconds." % (size, time() - start_time))
+
+
 def main():
     size = 5000
 
@@ -49,6 +55,7 @@ def main():
     test_insertionsort(numpy.random.randint(1000, size=size), size)
     test_mergesort(numpy.random.randint(1000, size=size), size)
     test_quicksort(numpy.random.randint(1000, size=size), size)
+    test_heapsort(numpy.random.randint(1000, size=size), size)
 
 
 if __name__ == '__main__':
