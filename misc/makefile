@@ -8,7 +8,7 @@ CC = gcc
 LINK = gcc
 
 #-Werror turns warnings into errors
-CFLAGS = -O2 -Wall -Wpedantic -Wextra -std=c99
+CFLAGS = -lm -O2 -Wall -Wpedantic -Wextra -std=c99
 
 CXXFLAGS = $(CFLAGS)
 

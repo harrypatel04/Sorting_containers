@@ -1,16 +1,19 @@
 // misc implementations
 #include "misc.h"
 
-int32_t main(int32_t argc, const char **argv)
+int32_t main()
 {
-    uint32_t size = 0;
-    int32_t offset = 0;
+    bool *nums;
+    size_t size = 1000;
+    nums = calloc(size, sizeof(bool));
+    // usage: bool is_prime(n){return nums[n]};
 
-    //
-    parse_args(argc, argv, &size, &offset);
-    printf("size: %i offset: %i\n", size, offset );
-
-    return 0;
+    prime_sieve(size, nums);
+    for ( uint32_t i = 0; i < size; i++ )
+    {
+        if ( nums[i] )
+            printf("%d is prime\n", i);
+    }
 
     return 0;
 }
@@ -198,4 +201,53 @@ void parse_args( int32_t argc, const char **argv, uint32_t *size, int32_t *offse
         }
 
     }
+}
+
+
+// Sieve of Atkin: https://en.wikipedia.org/wiki/Sieve_of_Atkin
+void prime_sieve( size_t size, bool nums[] )
+{
+    uint32_t n;
+
+    // Initialize array with false values
+    for ( uint32_t i = 0; i < size; i++ )
+        nums[i] = false;
+
+    // mark nums[n] true if any of the following is true:
+    // a) n = 4*x^2 + y^2 has an odd number of solution pairs AND n % 12 = 1 or n % 12 = 5
+    // b) n = 3*x^2 + y^2 has an odd number of solutions pairs AND n % 12 = 7
+    // c) n = 3*x^2 - y^2 has an odd number of solutions pairs AND x > y AND n % 12 = 11
+    for ( uint32_t x = 1; x*x < size; x++ )
+    {
+        for ( uint32_t y = 1; y*y < size; y++ )
+        {
+            n = (4 * x * x) + (y * y);
+            if (n <= size && (n % 12 == 1 || n % 12 == 5))
+                nums[n] ^= true;
+
+            n = (3 * x * x) + (y * y);
+            if (n <= size && n % 12 == 7)
+                nums[n] ^= true;
+
+            n = (3 * x * x) - (y * y);
+            if (x > y && n <= size && n % 12 == 11)
+                nums[n] ^= true;
+        }
+    }
+
+    for ( uint32_t i = 5; i < sqrt(size); i++)
+    {
+        if ( nums[i] )
+        {
+            for ( uint32_t j = i*i; j < size; j += i*i )
+            {
+                nums[i] = false;
+            }
+        }
+    }
+
+    // The above ignores single digit primes
+    uint32_t first[4] = {2, 3, 5, 7};
+    for ( uint32_t i = 0; i < size && i < 4; i++ )
+        nums[first[i]] = true;
 }
