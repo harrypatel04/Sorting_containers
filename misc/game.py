@@ -17,7 +17,7 @@ class Game(object):
         self.block_mode = block_mode
         self.screen = screen
 
-    def alive(self, x, y):
+    def birth(self, x, y):
         """set cell to alive state"""
         self.state[x][y] = True
 
@@ -39,7 +39,7 @@ class Game(object):
         for i in range(self.width):
             for j in range(self.height):
                 if random.random() > threshold:
-                    self.alive(i, j)
+                    self.birth(i, j)
 
     def step(self):
         """Performs one iteration"""
