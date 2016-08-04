@@ -7,9 +7,7 @@ import random
 
 
 class Game(object):
-    """Implements a very basic version of Conway's Game of Life and draws it.
-       Linux only.
-    """
+    """Implements a very basic version of Conway's Game of Life"""
     def __init__(self, screen=None, width=80, height=24, draw_delay=0.5, block_mode=True):
         # A cell is "alive" if its corresponding matrix entry is True
         self.width = width
@@ -19,19 +17,8 @@ class Game(object):
         self.block_mode = block_mode
         self.screen = screen
 
-    def normalize_coordinates(self, x, y):
-        """Takes coordinates that might be off the board and wraps them around"""
-        _x = x
-        _y = y
-
-        if x > self.width:
-            _x = x % self.width
-        if y > self.height:
-            _y = y % self.height
-        return (_x, _y)
-
-    def toggle_live(self, x, y):
-        """set cell to live state"""
+    def alive(self, x, y):
+        """set cell to alive state"""
         self.state[x][y] = True
 
     def kill(self, x, y):
@@ -40,8 +27,7 @@ class Game(object):
 
     def toggle(self, x, y):
         """toggle cell's state"""
-        _x, _y = self.normalize_coordinates(x, y)
-        self.state[_x][_y] = not self.state[_x][_y]
+        self.state[x][y] = not self.state[x][y]
 
     def clear(self):
         """clears board"""
@@ -53,7 +39,7 @@ class Game(object):
         for i in range(self.width):
             for j in range(self.height):
                 if random.random() > threshold:
-                    self.toggle_live(i, j)
+                    self.alive(i, j)
 
     def step(self):
         """Performs one iteration"""
@@ -111,12 +97,12 @@ def main(stdscr):
     term_size = shutil.get_terminal_size((80, 24))  # use 80x24 as default size
 
     curses.use_default_colors()
+    # When use_default_colors() is enabled, using -1 uses the default color
     curses.init_pair(1, curses.COLOR_GREEN, -1)
 
     # subtract 1 from lines because curses *really* doesn't like drawing the
     # cursor off the screen.
     game = Game(screen=stdscr, width=term_size.columns, height=term_size.lines-1, draw_delay=0.25, block_mode=True)
-    # game = Game(screen=stdscr, width=4, height=5, draw_delay=0.25, block_mode=False)
     game.random(threshold=0.9)
     game.step_through(steps=20)
 
