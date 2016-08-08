@@ -31,7 +31,7 @@ class Game(object):
 
     def clear(self):
         """clears board"""
-        self.state = np.zeros(dtype=bool, shape=(self.width, self.height))
+        self.state[:] = False
 
     def random(self, threshold=0.5):
         """Generates a random board"""
@@ -74,7 +74,6 @@ class Game(object):
 
     def draw(self):
         """draws the board"""
-
         self.screen.clear()
         for x in range(self.width):
             for y in range(self.height):
@@ -83,7 +82,6 @@ class Game(object):
 
     def draw_cell(self, x, y):
         """draws a cell based on its value"""
-
         if self.state[x][y]:
             if self.block_mode:
                 self.screen.addstr(y, x, u'\u2588', curses.color_pair(1))
@@ -97,7 +95,7 @@ def main(stdscr):
     term_size = shutil.get_terminal_size((80, 24))  # use 80x24 as default size
 
     curses.use_default_colors()
-    # When use_default_colors() is enabled, using -1 uses the default color
+    # When use_default_colors() is enabled, using -1 uses the default background color
     curses.init_pair(1, curses.COLOR_GREEN, -1)
 
     # subtract 1 from lines because curses *really* doesn't like drawing the
